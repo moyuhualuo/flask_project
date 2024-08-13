@@ -1,0 +1,60 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 清除默认样式 */
+body {
+    background: wheat;
+}
+nav {
+    padding: 0;
+    margin: 0;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* 使用flex布局 */
+    justify-content: center; /* 居中对齐 */
+    align-items: center; /* 垂直居中 */
+    background-color: rgba(0, 0, 0, 0.7); /* 设置半透明背景 */
+}
+
+/* 列表项 */
+nav ul li {
+    margin: 0 20px; /* 控制间距 */
+}
+
+/* 链接样式 */
+nav ul li a {
+    text-decoration: none;
+    color: #A6A6A6; /* 字体颜色为白色 */
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    transition: color 0.3s ease; /* 悬停时颜色渐变 */
+}
+
+/* 悬停时的字体样式 */
+nav ul li a:hover {
+    color: #f0f0f0; /* 悬停时字体变为亮白 */
+}
+
+/* 保持Lable.svg颜色不变 */
+nav ul li link[rel="lable_icon"] {
+    color: inherit; /* 继承默认颜色 */
+    display: inline-block; /* 保持图标的显示 */
+}
+
+/* 图标样式 */
+nav ul li a .fa-github {
+    margin-right: 8px; /* 图标与文本间距 */
+}
+
+/* 链接项悬停时不改变图标颜色 */
+nav ul li a:hover .fa-github {
+    color: white; /* 保持图标颜色 */
+}
