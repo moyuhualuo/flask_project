@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ url_for('static', filename='icon.svg') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='icon/icon.svg') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <title>Moyu lau's site</title>
     {% endblock %}
 </head>
 <body>
+    {# 横向标签栏 #}
     {% block navbar %}
-    <nav>
+    <nav class="navbar">
     <ul>
-        <li><a href="{{ url_for('serect_page') }}"><img src="{{ url_for('static', filename='icon.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
+        <li><a href="{{ url_for('serect_page') }}"><img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
         <li><a href="{{ url_for('life_page') }}">入校指南</a></li>
         <li><a href="{{ url_for('tools_page') }}">Tools</a></li>
         <li><a href="{{ url_for('self_learn_page') }}">自学建议</a></li>
@@ -28,9 +29,6 @@
     </ul>
     </nav>
     {% endblock %}
-<section>
-    <p>Checking your browser before accessing sci-hub.ru
-Please wait a few seconds. Once this check is complete, the website will open automatically</p>
-</section>
+    {% block other%}{% endblock %}
 </body>
 </html>

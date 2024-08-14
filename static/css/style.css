@@ -6,8 +6,9 @@
 
 /* 清除默认样式 */
 body {
-    background: wheat;
+    background: #f0f0f0;
 }
+
 nav {
     padding: 0;
     margin: 0;
@@ -58,3 +59,8 @@ nav ul li a .fa-github {
 nav ul li a:hover .fa-github {
     color: white; /* 保持图标颜色 */
 }
+.navbar:hover {
+    overflow-x: hidden;
+}
+/*背景属性 */
+
