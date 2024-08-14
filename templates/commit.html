@@ -66,6 +66,13 @@
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Commit</button>
                 </form>
+                <div>  <li><a href="{{ url_for('index_page') }}"><img src="{{ url_for('static', filename='icon/home.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
+                    <li><i class="like-icon" data-item-id="2" style="cursor: pointer;">😍</i><span class="like-count" data-item-id="2">0</span></li>
+                    <li><i class="like-icon" data-item-id="3" style="cursor: pointer;">💚</i><span class="like-count" data-item-id="3">0</span></li>
+                    <li><i class="like-icon" data-item-id="4" style="cursor: pointer;">👍</i><span class="like-count" data-item-id="4">0</span></li>
+                    <li><i class="like-icon" data-item-id="5" style="cursor: pointer;">🥰</i><span class="like-count" data-item-id="5">0</span></li>
+                    <li><i class="like-icon" data-item-id="6" style="cursor: pointer;">😅</i><span class="like-count" data-item-id="6">0</span></li>
+                </div>
 
             </div>
 
@@ -87,6 +94,7 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='commit.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/commit.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

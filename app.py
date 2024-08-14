@@ -125,21 +125,21 @@ def tools_page():
 @app.route('/serect')
 def serect_page():
     return render_template('serect.html')
-@app.route('/like', methods=['POST'])
-def like():
-    like_record = Like.query.get(1)
+@app.route('/like/<int:item_id>', methods=['POST'])
+def like(item_id):
+    like_record = Like.query.get(item_id)
     if like_record is None:
-        like_record = Like(like_count=1)
+        like_record = Like(id=item_id, like_count=1)
         db.session.add(like_record)
     else:
         like_record.like_count += 1
     db.session.commit()
-    return jsonify({'like_count': like_record.like_count})
-@app.route('/get_like_count', methods=['GET'])
-def get_like_count():
-    like_record = Like.query.get(1)
+    return jsonify({'item_id': item_id, 'like_count': like_record.like_count})
+@app.route('/get_like_count/<int:item_id>', methods=['GET'])
+def get_like_count(item_id):
+    like_record = Like.query.get(item_id)
     like_count = like_record.like_count if like_record else 0
-    return jsonify({'like_count': like_count})
+    return jsonify({'item_id': item_id, 'like_count': like_count})
 @app.route('/delete/<int:message_id>', methods=['POST', 'GET'])
 @login_required
 def delete_message(message_id):
