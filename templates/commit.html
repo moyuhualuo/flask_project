@@ -30,6 +30,19 @@
             margin: 10px;
             border-radius: 5px;
             color: white;
+            position: relative;
+        }
+        .btn-edit, .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+        }
+        .btn-edit {
+            right: 40px;
         }
     </style>
 </head>
@@ -57,6 +70,11 @@
                         <div class="message-box" style="background: {{ get_random_gradient() }};">
                             {{ message.name }}: {{ message.content }} <br>
                             <small class="text-muted">{{ message.time }}</small>
+                            {% if current_user.is_authenticated %}
+                                <form method="post" action="/delete/{{ message.id }}" style="display: inline;">
+                                    <button type="submit" class="btn-delete">Delete</button>
+                                </form>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -64,6 +82,6 @@
         </div>
     </div>
 
-     <script src="{{ url_for('static', filename='js/commit.js') }}"></script>
+    <script src="{{ url_for('static', filename='commit.js') }}"></script>
 </body>
 </html>
