@@ -12,7 +12,7 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    background-color: #333;
+    background-color: black;
     color: #fff;
     padding: 15px;
     text-align: center; /* 文字居中 */
@@ -30,7 +30,7 @@ body {
 }
 
 .sidebar-menu a {
-    color: #fff;
+    color: #2fa89c;
     text-decoration: none;
     font-size: 18px;
     display: block; /* 使链接成为块级元素 */
@@ -59,9 +59,12 @@ body {
 
 .section {
     margin-left: 260px; /* 调整主内容区域的左边距以适应侧边栏 */
-    padding: 20px;
+    padding: 40px;
+    background-color: black;
 }
-
+.section p, h2{
+    color: #f7f8fa;
+}
 @media (max-width: 768px) {
     .sidebar {
         width: 100%;

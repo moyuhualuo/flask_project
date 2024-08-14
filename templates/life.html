@@ -14,22 +14,38 @@
     <nav class="sidebar">
         <ul class="sidebar-menu">
             <li><a href="{{ url_for('index_page') }}"><img src="{{ url_for('static', filename='icon/home.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
-            <li><a href="#section1">Section 1</a></li>
-            <li><a href="#section2">Section 2</a></li>
-            <li><a href="#section3">Section 3</a></li>
+            <li><a href="#section1">初入校园</a></li>
+            <li><a href="#section2">关于课堂</a></li>
+            <li><a href="#section3">社团生活</a></li>
+            <li><a href="#section4">走出宿舍</a></li>
+            <li><a href="#section5">试错与规划</a></li>
+            <li><a href="#section6">生活Tips</a></li>
+            <li><a href="#section7">简单的话</a></li>
+            <li><i id="like-icon" style="cursor: pointer;">❤️</i><span id="like-count">0</span></li>
+
         </ul>
     </nav>
     {% endblock %}
-
     {% block content %}
-        <div class="section">
-    <!-- Content will be inserted here -->
-    <p id="section1">Section 1 Content</p>
-    <p id="section2">Section 2 Content</p>
-    <p id="section3">Section 3 Content</p>
-    <div>
+    <div class="section"><!-- Content will be inserted here -->
+        <h2 id="section2">初入校园</h2>
+        <p>这是一段话</p>
+    <h2 id="section2">关于课堂</h2>
+        <p>这是一段话</p>
+    <h2 id="section3">社团生活</h2>
+<p>这是一段话</p>
+    <h2 id="section4">走出宿舍</h2>
+<p>这是一段话</p>
+    <h2 id="section5">试错与规划</h2>
+<p>这是一段话</p>
+    <h2 id="section6">生活Tips</h2>
+<p>这是一段话</p>
+    <h2 id="section7">简单的话</h2>
+    <p>这是一段话</p>
+    </div>
+
     {% endblock %}
-
-
+    <!-- 引入JavaScript文件 -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
