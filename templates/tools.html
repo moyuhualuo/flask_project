@@ -3,35 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/demo.css') }}" type="text/css">
-    <title>Expandable Navbar</title>
+    <title>WebTools Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tools.css') }}" type="text/css">
 </head>
 <body>
-    <nav class="navbar">
-        <button class="toggle-btn">Menu</button>
-        <ul class="navbar-menu">
-            <li><a href="#section1">Section 1</a></li>
-            <li><a href="#section2">Section 2</a></li>
-            <li><a href="#section3">Section 3</a></li>
-            <li><a href="#more">More</a></li>
-        </ul>
-    </nav>
-    <section id="section1">
-        <h2>Section 1</h2>
-        <p>This is the first section.</p>
-    </section>
-    <section id="section2">
-        <h2>Section 2</h2>
-        <p>This is the second section.</p>
-    </section>
-    <section id="section3">
-        <h2>Section 3</h2>
-        <p>This is the third section.</p>
-    </section>
-    <section id="more">
-        <h2>More</h2>
-        <p>Additional content here.</p>
-    </section>
-    <script src="scripts.js"></script>
+<div class="page_name">
+    <h2>Tools Shopping online</h2>
+</div>
+<div class="site-lists">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th><img src="{{ url_for('static', filename='icon/web.svg') }}" alt="web_svg" style="width: 24px; height: 24px;"></th>
+                <th>Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>网站名字或地址或icon</td>
+                <td>很长一段内容balabalabalaballalalsdakhdqon</td>
+            </tr>
+            <tr>
+                <td>Data 4</td>
+                <td>Data 5</td>
+            </tr>
+            <!-- 添加更多的行 -->
+        </tbody>
+    </table>
+</div>
+<div class="apps">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th><img src="{{ url_for('static', filename='icon/app.svg') }}" alt="app_svg" style="width: 24px; height: 24px;"></th>
+                <th>Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>app名子</td>
+                <td>很长一段内容balabalabalaballalalsdakhdqon</td>
+            </tr>
+            <tr>
+                <td>Data 4</td>
+                <td>Data 5</td>
+            </tr>
+            <!-- 添加更多的行 -->
+        </tbody>
+    </table>
+</div>
+<div class="books">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th><img src="{{ url_for('static', filename='icon/book.svg') }}" alt="book_svg" style="width: 24px; height: 24px;"></th>
+                <th>Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>书名</td>
+                <td>很长一段内容balabalabalabal</td>
+            </tr>
+            <tr>
+                <td>Data 4</td>
+                <td>Data 5</td>
+            </tr>
+            <!-- 添加更多的行 -->
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
