@@ -168,7 +168,6 @@ def settings():
         db.session.commit()
         flash('Settings updated.')
         return redirect(url_for('index'))
-
     return render_template('settings.html')
 if __name__ == '__main__':
     app.run()
