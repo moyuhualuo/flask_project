@@ -7,6 +7,9 @@ from datetime import datetime
 import click
 import os
 import time
+"""可以删除的md"""
+import markdown
+from flask_misaka import Misaka
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.root_path, 'data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # 关闭对模型修改的监控
@@ -14,6 +17,7 @@ app.config['SECRET_KEY'] = os.urandom(24)
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'index'
+
 @login_manager.user_loader
 def load_user(user_id):
     user = User.query.get(int(user_id))
@@ -102,9 +106,20 @@ def index_page():  # put application's code here
 @app.route('/life')
 def life_page():
     return render_template('life.html')
-@app.route('/self_learn')
+
+"""可以删除的md"""
+@app.route('/self_learn', methods=['GET', 'POST'])
 def self_learn_page():
-    return render_template('self_learn.html')
+    markdown_path = os.path.join('static/md', 'a.md')
+    if os.path.exists(markdown_path):
+        with open(markdown_path, 'r', encoding='utf-8') as md_file:
+            markdown_content = md_file.read()
+    else:
+        markdown_content = ""
+
+    # 将 Markdown 转换为 HTML
+    html_content = markdown.markdown(markdown_content)
+    return render_template('self_learn.html', html_content=html_content)
 @app.route('/commit', methods=['POST', 'GET'])
 def commit_page():
     if request.method == 'POST':
