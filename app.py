@@ -58,6 +58,12 @@ class Message(db.Model):
     name = db.Column(db.String(20), nullable=False)
     content = db.Column(db.Text, nullable=False)
     time = db.Column(db.String(20), nullable=False)
+class Web(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_type = db.Column(db.String(20))
+    link_url = db.Column(db.String(255))
+    link_name = db.Column(db.String(255))
+    description = db.Column(db.Text)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -121,7 +127,8 @@ def get_random_gradient():
     return f'radial-gradient(circle, rgba({r1},{g1},{b1},1) 0%, rgba({r2},{g2},{b2},1) 100%)'
 @app.route('/tools')
 def tools_page():
-    return render_template('tools.html')
+    webs = Web.query.all()
+    return render_template('tools.html', webs=webs)
 @app.route('/serect')
 def serect_page():
     return render_template('serect.html')

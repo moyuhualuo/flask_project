@@ -8,25 +8,25 @@
 </head>
 <body>
 <div class="page_name">
-    <h2>Tools Shopping online</h2>
+    <h2>🥳 Tools Shopping online 🥳</h2>
 </div>
 <div class="site-lists">
     <table class="styled-table">
         <thead>
             <tr>
-                <th><img src="{{ url_for('static', filename='icon/web.svg') }}" alt="web_svg" style="width: 24px; height: 24px;"></th>
+                <th><img src="{{ url_for('static', filename='icon/web.svg') }}" title="网址" alt="web_svg" style="width: 24px; height: 24px;"></th>
                 <th>Information</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>网站名字或地址或icon</td>
-                <td>很长一段内容balabalabalaballalalsdakhdqon</td>
+         {% for web in webs%}
+            {% if web.id_type == 'web' %}
+               <tr>
+                <td><a href={{ web.link_url }}>{{ web.link_name }}</a> </td>
+                <td>{{ web.description }}</td>
             </tr>
-            <tr>
-                <td>Data 4</td>
-                <td>Data 5</td>
-            </tr>
+            {% endif %}
+         {% endfor %}
             <!-- 添加更多的行 -->
         </tbody>
     </table>
@@ -35,20 +35,19 @@
     <table class="styled-table">
         <thead>
             <tr>
-                <th><img src="{{ url_for('static', filename='icon/app.svg') }}" alt="app_svg" style="width: 24px; height: 24px;"></th>
+                <th><img src="{{ url_for('static', filename='icon/app.svg') }}" title="应用推荐" alt="app_svg" style="width: 24px; height: 24px;"></th>
                 <th>Information</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>app名子</td>
-                <td>很长一段内容balabalabalaballalalsdakhdqon</td>
+            {% for web in webs%}
+            {% if web.id_type == 'app' %}
+               <tr>
+                <td><a href={{ web.link_url }}>{{ web.link_name }}</a> </td>
+                <td>{{ web.description }}</td>
             </tr>
-            <tr>
-                <td>Data 4</td>
-                <td>Data 5</td>
-            </tr>
-            <!-- 添加更多的行 -->
+            {% endif %}
+         {% endfor %}
         </tbody>
     </table>
 </div>
@@ -56,19 +55,19 @@
     <table class="styled-table">
         <thead>
             <tr>
-                <th><img src="{{ url_for('static', filename='icon/book.svg') }}" alt="book_svg" style="width: 24px; height: 24px;"></th>
+                <th><img src="{{ url_for('static', filename='icon/book.svg') }}" title="书籍推荐" alt="book_svg" style="width: 24px; height: 24px;"></th>
                 <th>Information</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>书名</td>
-                <td>很长一段内容balabalabalabal</td>
+            {% for web in webs%}
+            {% if web.id_type == 'book' %}
+               <tr>
+                <td><a href={{ web.link_url }}>{{ web.link_name }}</a> </td>
+                <td>{{ web.description }}</td>
             </tr>
-            <tr>
-                <td>Data 4</td>
-                <td>Data 5</td>
-            </tr>
+            {% endif %}
+         {% endfor %}
             <!-- 添加更多的行 -->
         </tbody>
     </table>
