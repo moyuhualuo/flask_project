@@ -62,7 +62,7 @@ body {
     padding: 40px;
     background-color: black;
 }
-.section p, h2{
+.section pre, h2{
     color: #f7f8fa;
 }
 @media (max-width: 768px) {

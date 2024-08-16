@@ -7,9 +7,10 @@ from datetime import datetime
 import click
 import os
 import time
+
+from markupsafe import Markup
+
 """可以删除的md"""
-import markdown
-from flask_misaka import Misaka
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.root_path, 'data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # 关闭对模型修改的监控
@@ -17,11 +18,11 @@ app.config['SECRET_KEY'] = os.urandom(24)
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'index'
-
 @login_manager.user_loader
 def load_user(user_id):
     user = User.query.get(int(user_id))
     return user
+
 @app.cli.command()
 @click.option('--drop', is_flag=True, help='Create after drop.',)
 def initdb(drop):
@@ -29,6 +30,7 @@ def initdb(drop):
         db.drop_all()
     db.create_all()
     click.echo('Initialized database.')
+
 @app.cli.command()
 @click.option('--username', prompt=True, help='The username used to login.')
 @click.option('--password', prompt=True, hide_input=True, help='The password used to login.')
@@ -68,7 +70,12 @@ class Web(db.Model):
     link_url = db.Column(db.String(255))
     link_name = db.Column(db.String(255))
     description = db.Column(db.Text)
-
+class Md_test(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    page = db.Column(db.String(20))
+    author = db.Column(db.String(20))
+    content = db.Column(db.Text, nullable=False)
+    is_published = db.Column(db.Boolean, default=False)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -105,21 +112,14 @@ def index_page():  # put application's code here
     return render_template('index.html')
 @app.route('/life')
 def life_page():
-    return render_template('life.html')
+    contents = Md_test.query.filter_by(is_published=True).all()
+    return render_template('life.html', contents=contents)
 
 """可以删除的md"""
 @app.route('/self_learn', methods=['GET', 'POST'])
 def self_learn_page():
-    markdown_path = os.path.join('static/md', 'a.md')
-    if os.path.exists(markdown_path):
-        with open(markdown_path, 'r', encoding='utf-8') as md_file:
-            markdown_content = md_file.read()
-    else:
-        markdown_content = ""
-
-    # 将 Markdown 转换为 HTML
-    html_content = markdown.markdown(markdown_content)
-    return render_template('self_learn.html', html_content=html_content)
+    contents = Md_test.query.filter_by(is_published=True).all()
+    return render_template('self_learn.html', contents=contents)
 @app.route('/commit', methods=['POST', 'GET'])
 def commit_page():
     if request.method == 'POST':
@@ -191,5 +191,7 @@ def settings():
         flash('Settings updated.')
         return redirect(url_for('index'))
     return render_template('settings.html')
+
+
 if __name__ == '__main__':
     app.run()
