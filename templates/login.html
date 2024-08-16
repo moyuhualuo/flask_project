@@ -3,7 +3,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/test_demo.css') }}" type="text/css">
 <title>login!!!</title>
 {% endblock head %}
-{% block navbar %}{% endblock navbar%}
 {% block content %}
 <div class="login-container">
     <h3>Login</h3>
@@ -17,6 +16,20 @@
             <input type="password" id="password" name="password" required><br><br>
         </div>
         <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+
     </form>
 </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="login-container">
+            {% set last_message = messages[-1] %}
+            <div class="flash-message">
+                <div class="alert alert-{{ last_message[0] }}">
+                {{ last_message[1] }}
+                </div>
+            </div>
+                 </div>
+            {% endif %}
+    {% endwith %}
+
 {% endblock content%}

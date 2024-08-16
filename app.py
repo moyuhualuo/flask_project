@@ -17,7 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # 关闭对模型修改的
 app.config['SECRET_KEY'] = os.urandom(24)
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
-login_manager.login_view = 'index'
+login_manager.login_view = 'index_page'
 @login_manager.user_loader
 def load_user(user_id):
     user = User.query.get(int(user_id))
@@ -43,6 +43,7 @@ def admin(username, password):
     else:
         click.echo('Creating new user...')
         user = User(username=username, name='Admin')
+        user.set_password(password)
         db.session.add(user)
     db.session.commit()
     click.echo('Done.')
@@ -50,12 +51,13 @@ class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(128))
+    password_hash = db.Column(db.String(128))
 
     def set_password(self, password):
-        self.password = generate_password_hash(password)
+        self.password_hash = generate_password_hash(password)
+
     def validate_password(self, password):
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.password_hash, password)
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True, default=1)
     like_count = db.Column(db.Integer, default=0)
@@ -76,6 +78,11 @@ class Md_test(db.Model):
     author = db.Column(db.String(20))
     content = db.Column(db.Text, nullable=False)
     is_published = db.Column(db.Boolean, default=False)
+
+@app.context_processor
+def inject_user():  # 函数名可以随意修改
+    user = User.query.first()
+    return dict(user=user)  # 需要返回字典，等同于 return {'user': user}
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -84,11 +91,11 @@ def login():
 
         if not username or not password:
             flash('Invalid input.')
-            return redirect(url_for('login.html'))
+            return redirect(url_for('login'))
+        user = User.query.filter_by(username=username).first()
 
-        user = User.query.first()
         # 验证用户名和密码是否一致
-        if username == user.username and user.validate_password(password):
+        if user and username == user.username and user.validate_password(password):
             login_user(user)  # 登入用户
             flash('Login success.')
             return redirect(url_for('index_page'))  # 重定向到主页
@@ -102,7 +109,7 @@ def login():
 def logout():
     logout_user()  # 登出用户
     flash('Goodbye.')
-    return redirect(url_for('index_page'))  # 确保这里使用正确的端点名称
+    return redirect(url_for('commit_page'))  # 确保这里使用正确的端点名称
 
 @app.route('/', methods=['GET', 'POST'])
 def index_page():  # put application's code here
@@ -130,7 +137,7 @@ def commit_page():
         new_message = Message(name=name, content=content, time=time)
         db.session.add(new_message)
         db.session.commit()
-        flash('Message added.')
+        flash('Message added.', 'success')
         return redirect(url_for('commit_page'))
 
     messages = Message.query.all()
@@ -189,9 +196,12 @@ def settings():
         # user.name = name
         db.session.commit()
         flash('Settings updated.')
-        return redirect(url_for('index'))
+        return redirect(url_for('index_page'))
     return render_template('settings.html')
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=False)

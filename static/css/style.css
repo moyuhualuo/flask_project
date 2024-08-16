@@ -5,14 +5,17 @@
 }
 
 /* 清除默认样式 */
-body {
-    background: #f0f0f0;
+#topbar {
+    padding: 0;     /* 去掉内边距 */
+    margin: 0;      /* 去掉外边距 */
+    width: 100%;    /* 设置宽度为 100% */
+    box-sizing: border-box; /* 确保内边距和边框不会影响宽度 */
+    margin-top: 0;       /* 将顶部边距设置为 0 */
+    margin-right: auto;  /* 右边距设置为自动（即自动填充剩余空间） */
+    margin-bottom: 0;    /* 将底部边距设置为 0 */
+    margin-left: auto;   /* 左边距设置为自动（即自动填充剩余空间） */
 }
 
-nav {
-    padding: 0;
-    margin: 0;
-}
 nav ul {
     list-style-type: none;
     padding: 0;
@@ -20,7 +23,7 @@ nav ul {
     display: flex; /* 使用flex布局 */
     justify-content: center; /* 居中对齐 */
     align-items: center; /* 垂直居中 */
-    background-color: rgba(0, 0, 0, 0.7); /* 设置半透明背景 */
+    background-color: rgba(0, 0, 0, .075); /* 设置半透明背景 */
 }
 
 /* 列表项 */
@@ -64,3 +67,331 @@ nav ul li a:hover .fa-github {
 }
 /*背景属性 */
 
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;1,400&family=Oxygen+Mono&family=Oxygen:wght@300&display=swap");
+
+.user-icons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.user-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+:root {
+  --black: #000000;
+  --red: #bf1304;
+  --light: #2fa89c;
+  --li: #9bf2ea;
+  --white: #f7f8fa;
+  --icons: #026873;
+  --icons-change: #8d2dd1;
+  --button-change: #650773;
+  --button: #89008d;
+  --color-contact: #593954;
+  --blue: #13678a;
+
+  --font-size: 1.3rem;
+
+  --mono: "Oxygen", sans-serif;
+  --sans: "Open Sans", sans-serif;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--sans);
+  background: #1D1D1F;
+  color: var(--white);
+  font-size: var(--font-size);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+a {
+  color: var(--light);
+}
+
+a:hover {
+  color: var(--li);
+  text-decoration: none;
+}
+
+#intro {
+  padding: 4rem 1rem 10rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* padding: top right bottom left; */
+}
+
+#intro p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+#intro .name {
+  font-family: var(--mono);
+  font-size: 1rem;
+}
+
+.name span {
+  font-family: var(--sans);
+  font-size: 4rem;
+  color: black;
+  display: block;
+  font-weight: 300;
+}
+
+#intro h2 {
+  font-size: 4rem;
+}
+
+#contact {
+  width: 400px;
+  text-align: center;
+  margin: 0 auto;
+  padding: 3rem 0;
+}
+
+#contact p:last-child {
+  margin-top: 3rem;
+}
+
+.contact-div {
+  background-color: #1D1D1F;
+}
+
+.diving-line {
+  background: radial-gradient(
+    circle,
+    rgba(63, 94, 251, 1) 0%,
+    rgba(252, 70, 107, 1) 100%
+  );
+  padding: 2px;
+}
+
+.nav {
+  font-family: var(--mono);
+  font-size: 80%;
+  padding: 1rem;
+}
+
+.nav h1 a {
+  font-size: var(--sans);
+}
+
+.ul{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.li :first-child {
+  flex-basis: 100%;
+  text-align: center;
+}
+
+.nav a {
+  color: var(--white);
+  text-decoration: none;
+  display: block;
+}
+
+.nav [class*="fa-"] {
+  font-size: 150%;
+  color: var(--icons);
+}
+
+.nav h1 [class*="fa-"] {
+  font-size: 100%;
+}
+
+.nav a:hover,
+.nav [class*="fa-"]:hover {
+  color: var(--icons-change);
+}
+
+.button {
+  background-color: var(--button-change);
+  padding: 0.5rem;
+  border-radius: 8px;
+  color: var(--white);
+  font-size: var(--mono);
+  text-decoration: none;
+}
+
+.button:hover {
+  color: var(--white);
+  background-color: var(--button);
+}
+
+footer {
+  text-align: center;
+  padding-top: 3rem;
+}
+
+footer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 2rem 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 3rem;
+  font-size: 3rem;
+}
+
+.projects-div {
+  background-color: #1D1D1F;
+}
+
+#projects {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+#projects h2 {
+  font-size: 2.5rem;
+  margin-bottom: calc(2.5rem+ 1.5);
+}
+
+#projects h3 {
+  color: var(--li);
+}
+
+#projects h4 {
+  font-size: 1rem;
+  font-family: var(--light);
+  margin: 0;
+}
+#projects ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+  font-size: 1rem;
+}
+
+#projects img {
+  margin: 1rem 0 0rem 0;
+  border-left: 1px solid var(--white);
+  border-top: 1px solid var(--white);
+  padding: 0rem;
+}
+
+img {
+  width: 100%;
+}
+
+.blackbox {
+  background-color: #012030;
+  padding: 1rem;
+  border-radius: 15px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 550px) {
+  article {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-gap: 2rem;
+  }
+  #projects img {
+    grid-column: 1/6;
+    grid-row: 1/2;
+  }
+  .text {
+    order: 2;
+    text-align: right;
+    grid-column: 5/11;
+    grid-row: 1/2;
+  }
+  #projects ul {
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 850px) {
+  .nav {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .li :first-child {
+    flex-basis: auto;
+    text-align: left;
+    margin-right: auto;
+  }
+  #topbar {
+    margin: 0 auto;
+  }
+}
+
+/*About me*/
+
+.intro ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.p-text {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: var(--blue);
+  padding: 2rem;
+  margin: 0 5rem 2rem 5rem;
+  border-radius: 20px;
+}
+
+.p-color {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: var(--icons-change);
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2rem;
+}
+
+.text-about {
+  margin: 0 1rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.list-hobbies {
+  padding-bottom: 2rem;
+}
+
+.about-footer {
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+/* About me end*/

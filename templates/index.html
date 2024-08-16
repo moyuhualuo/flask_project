@@ -10,12 +10,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <title>Moyu lau's site</title>
     {% endblock head%}
-
 </head>
 <body>
     {# 横向标签栏 #}
     {% block navbar %}
-    <nav class="navbar">
+    <nav id="#topbar">
     <ul>
         <li><a href="{{ url_for('serect_page') }}"><img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
         <li><a href="{{ url_for('life_page') }}">入校指南</a></li>
@@ -32,7 +31,93 @@
     </ul>
     </nav>
     {% endblock navbar%}
-    {% block content %}{% endblock content %}
+    {% block content %}
+        <section id="intro">
+      <p class="name">
+        Hey，欢迎来到你的到来 <span>NIT Book.</span>
+      </p>
+      <h2>这是一份计软入校指南，但不仅是计软</h2>
+            <p>入校以来，我期望有一份真正意义上的入学教导...</p>
+      <p>
+        有一个夜晚很长，长到我思考要不要弥补这份我梦的入学指南，我不停搜索
+        <a href="https://www.bing.com/search?q=南阳理工学院入学指南">南阳理工学院入学指南</a>
+      </p>
+        <p>很庆幸夜长而梦久</p>
+    </section>
+    </section>
+
+    <div class="diving-line"></div>
+    <div class="projects-div">
+    <section id="projects">
+    <h2>贡献成员:</h2>
+    <article>
+      <div class="text">
+        <h4>局限性</h4>
+        <h3>不足补充</h3>
+        <p class="blackbox">
+         由于时间，精力，所处知识层次具有自身局限性，故，网站制作有所不足。 在此特别感谢各位已经毕业，甚至临近毕业，不同专业的同学们的大力支持。<br />Yours sincerely
+        </p>
+
+        <h4>2024-08-17:</h4>
+        <ul class="ul">
+          <li class="li">Saturday</li>
+          <li class="li"></li>
+        </ul>
+      </div>
+       <div class="user-icons">
+           <img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="Icon" title="Moyu" class="user-img">
+           <img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="Icon" class="user-img">
+           <img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="Icon" class="user-img">
+    <!-- 更多图标 -->
+    </div>
+      </article>
+    </section>
+    </div>
+
+    <div class="diving-line"></div>
+    <div class="contact-div">
+      <section id="contact">
+        <h2>请多指正</h2>
+        <p>
+          如有不足和误区，请联系以下邮箱指正。
+            或者好的建议，一起加入，才能更好的开源未来。
+        </p>
+        <p><a href="mailto:luamoyu@gmail.com" class="button">Email me</a></p>
+      </section>
+    </div>
+
+    <div class="diving-line"></div>
+    <footer>
+        <h2>Created by &middot; <a href="https://flask.palletsprojects.com/">Flask</a></h2>
+      <ul>
+        <li class="li">
+          <a href="https://github.com/moyuLua"
+            ><span class="fa-brands fa-github" aria-hidden="true"></span
+            ><span class="sr-only">Github</span></a
+          >
+        </li>
+        <li class="li">
+          <a href="mailto:luamoyu@gmail.com">
+            <span class="fas fa-envelope" aria-hidden="true"></span>
+            <span class="sr-only">Email</span>
+          </a>
+        </li>
+      </ul>
+      <p><small>&copy; 2024 Moyu Lau. All rights reserved.</small></p>
+    </footer>
+
+    {% endblock content %}
     {% block other%}{% endblock other%}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
 </body>
 </html>
