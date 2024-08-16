@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+  <head>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/snake.css') }}" type="text/css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Serect</title>
+      <script src="{{ url_for('static', filename='js/snake.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/input.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/food.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/snakeUtils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+  </head>
+  <body>
+    <div class="side-text" id="left-text">
+      <p>
+        在#17-432曾有这样一个话题 <br />
+        做游戏，其实很不现实 <br />
+        但我记得我曾经的话 <br />
+        有些小小的梦只是一个爱好。<br />
+      </p>
+    </div>
+    <div id="game-board"></div>
+    <div class="side-text" id="right-text">
+      <p>
+        简陋的贪吃蛇小游戏 <br />
+        ↑键绿色Snake向上 <br />
+        ↓键则下<br />
+        ←键则左<br />
+        →键则右
+      </p>
+    </div>
+  </body>
 </html>
