@@ -63,7 +63,7 @@ body {
     background-color: #1D1D1F;
 }
 .section pre, h2{
-    color: #f7f8fa;
+    color: #C0C0C0;
 }
 @media (max-width: 768px) {
     .sidebar {
@@ -84,4 +84,136 @@ pre {
   margin: 0 0 16px 0; /* 设置下边距 */
   padding: 10px; /* 内边距 */
     border-left: 4px solid #007bff; /* 左侧边框，增加视觉效果 */
+}
+
+input[type="text"],
+textarea {
+    width: 100%; /* 宽度100% */
+    padding: 0.8rem; /* 增加内边距以扩大输入框 */
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.2rem; /* 增加字体大小 */
+    box-sizing: border-box; /* 确保内边距不会影响总宽度 */
+    color: #1D1D1F;
+    background: #D8BFD8
+}
+
+/* 调整文本框（textarea）的高度 */
+textarea {
+    height: 200px; /* 高度增加以显示更多内容 */
+    resize: vertical; /* 允许垂直调整高度 */;
+}
+label {
+    color: #D8BFD8;
+}
+/* 编辑按钮 */
+.btn-edit {
+    background-color: #007bff; /* 蓝色背景 */
+    color: #ffffff; /* 白色文字 */
+    padding: 0.5rem 1rem; /* 内边距 */
+    border: none; /* 无边框 */
+    border-radius: 4px; /* 圆角 */
+    font-size: 0.9rem; /* 字体大小 */
+    cursor: pointer; /* 鼠标指针 */
+    transition: background-color 0.3s, transform 0.3s; /* 动画效果 */
+}
+
+.btn-edit:hover {
+    background-color: #0056b3; /* 悬停时背景颜色 */
+    transform: scale(1.05); /* 悬停时放大效果 */
+}
+
+.btn-edit:focus {
+    outline: none; /* 移除聚焦时的默认边框 */
+}
+
+/* 删除按钮 */
+.btn-delete {
+    background-color: #dc3545; /* 红色背景 */
+    color: #ffffff; /* 白色文字 */
+    padding: 0.5rem 1rem; /* 内边距 */
+    border: none; /* 无边框 */
+    border-radius: 4px; /* 圆角 */
+    font-size: 0.9rem; /* 字体大小 */
+    cursor: pointer; /* 鼠标指针 */
+    transition: background-color 0.3s, transform 0.3s; /* 动画效果 */
+}
+
+.btn-delete:hover {
+    background-color: #c82333; /* 悬停时背景颜色 */
+    transform: scale(1.05); /* 悬停时放大效果 */
+}
+
+.btn-delete:focus {
+    outline: none; /* 移除聚焦时的默认边框 */
+}
+/* 保存按钮 */
+.btn-save {
+    background-color: #28a745; /* 绿色背景 */
+    color: #ffffff; /* 白色文字 */
+    padding: 0.6rem 1.2rem; /* 内边距 */
+    border: none; /* 无边框 */
+    border-radius: 4px; /* 圆角 */
+    font-size: 0.9rem; /* 字体大小 */
+    cursor: pointer; /* 鼠标指针 */
+    transition: background-color 0.3s, transform 0.3s; /* 动画效果 */
+}
+
+.btn-save:hover {
+    background-color: #218838; /* 悬停时背景颜色 */
+    transform: scale(1.05); /* 悬停时放大效果 */
+}
+
+.btn-save:focus {
+    outline: none; /* 移除聚焦时的默认边框 */
+}
+
+/* 取消按钮 */
+.btn-cancel {
+    background-color: #6c757d; /* 灰色背景 */
+    color: #ffffff; /* 白色文字 */
+    padding: 0.6rem 1.2rem; /* 内边距 */
+    border: none; /* 无边框 */
+    border-radius: 4px; /* 圆角 */
+    font-size: 0.9rem; /* 字体大小 */
+    cursor: pointer; /* 鼠标指针 */
+    transition: background-color 0.3s, transform 0.3s; /* 动画效果 */
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268; /* 悬停时背景颜色 */
+    transform: scale(1.05); /* 悬停时放大效果 */
+}
+
+.btn-cancel:focus {
+    outline: none; /* 移除聚焦时的默认边框 */
+}
+
+/* 添加按钮特定样式 */
+.btn-add {
+    background-color: #007bff; /* 蓝色背景 */
+    color: white; /* 白色文字 */
+    border: none; /* 去掉边框 */
+    padding: 0.6rem 1.2rem; /* 内边距 */
+    border: none; /* 无边框 */
+    border-radius: 4px; /* 圆角 */
+    font-size: 0.9rem; /* 字体大小 */
+    cursor: pointer; /* 鼠标指针 */
+    transition: background-color 0.3s, transform 0.3s; /* 动画效果 */
+
+}
+
+.btn-add:hover {
+    background-color: #0056b3; /* 更深的蓝色背景 */
+    color: #e6e6e6; /* 更浅的文字颜色 */
+}
+
+.btn-add:focus {
+    outline: none; /* 去掉聚焦轮廓 */
+}
+
+p {
+    color: #0056b3;
 }

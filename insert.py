@@ -25,13 +25,4 @@ def insert_txt(txt_file, author):
             print(f"File {txt_file} does not exist.")
 if __name__ == '__main__':
 
-    insert_txt('static/text/demo.txt', '自学优缺分析')
-    insert_txt('static/text/demo.txt', '合理利用身份资源')
-    insert_txt('static/text/demo.txt', '体验信息时代')
-    insert_txt('static/text/demo.txt', '图书馆宝藏')
-    insert_txt('static/text/demo.txt', '重要的必要技能')
-    insert_txt('static/text/demo.txt', '关于考证')
-    insert_txt('static/text/demo.txt', '焦虑')
-    insert_txt('static/text/demo.txt', '规划建议')
-    insert_txt('static/text/demo.txt', '请善用Tools')
-    insert_txt('static/text/demo.txt', '结尾的话')
+    insert_txt('static/text/demo.txt', 'life_test')

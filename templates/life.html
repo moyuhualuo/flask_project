@@ -12,28 +12,67 @@
     <nav class="sidebar">
         <ul class="sidebar-menu">
             <li><a href="{{ url_for('index_page') }}"><img src="{{ url_for('static', filename='icon/home.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
-            {% block content_one%}
+            {% block content_one %}
             {% for content in contents %}
-                	{% if content.page == 'life' %}
-                <li><a href={{ '#' + content.author }}>{{ content.author }}</a><li>
+                {% if content.page == 'life' %}
+                <li><a href="{{ '#' + content.author }}">{{ content.author }}</a></li>
                 {% endif %}
             {% endfor %}
             {% endblock %}
             <li>
-    <i class="like-icon" data-item-id="1" style="cursor: pointer;">💕</i>
-    <span class="like-count" data-item-id="1">0</span>
-</li>
+                <i class="like-icon" data-item-id="1" style="cursor: pointer;">💕</i>
+                <span class="like-count" data-item-id="1">0</span>
+            </li>
         </ul>
     </nav>
-    <div class="section"><!-- Content will be inserted here -->
-    {% block content_two%}
+    <div class="section">
+        <!-- Content will be inserted here -->
+        {% block content_two %}
+
+        {% if current_user.is_authenticated %}
+        <p>You need to <a href="{{ url_for('logout') }}">log out</a> to leave here</p>
+            <button type="button" class="btn btn-add" onclick="showAddForm()">Add</button>
+    <div id="add-form" style="display: none">
+        <form method="POST" id="add-form-content" action="{{ url_for('add_life') }}">
+            <label for="author">标题名字:</label>
+            <input type="text" id="author" name="author" required>
+
+            <label for="content">文本内容:</label>
+            <textarea id="content" name="content" required></textarea>
+
+            <button type="submit" class="btn btn-save">Save</button>
+            <button type="button" class="btn btn-cancel" onclick="hideAddForm()">Cancel</button>
+        </form>
+    </div>
+        {% endif %}
+
+        <!-- 显示所有内容 -->
         {% for content in contents %}
-            {% if content.page == 'life' %}
-            <h2 id={{ content.author }}>{{ content.author }}</h2>
-            <pre>{{ content.content }}</pre>
-            {% endif %}
+            <div class="content-item">
+                <h2 id="{{ content.author }}">{{ content.author }}</h2>
+                <pre>{{ content.content }}</pre>
+
+                {% if current_user.is_authenticated %}
+                <button type="button" class="btn btn-edit" onclick="showEditForm({{ content.id }})">Edit</button>
+                <form method="POST" action="{{ url_for('delete_life', id=content.id) }}" style="display:inline;"><button type="submit" class="btn btn-delete">Delete</button>
+                </form>
+                  <!-- 隐藏的编辑表单，点击编辑按钮时显示 -->
+        <div id="edit-form-{{ content.id }}" style="display:none;">
+            <form method="POST" action="{{ url_for('edit_life', id=content.id) }}">
+                <label for="author-{{ content.id }}">标题名字:</label>
+                <input type="text" id="author-{{ content.id }}" name="author" value="{{ content.author }}" required>
+
+                <label for="content-{{ content.id }}">文本内容:</label>
+                <textarea id="content-{{ content.id }}" name="content" required>{{ content.content }}</textarea>
+                <button type="submit" class="btn btn-save">Save</button>
+                <button type="button" class="btn btn-cancel" onclick="hideEditForm({{ content.id }})">Cancel</button>
+            </form>
+        </div>
+                {% endif %}
+
+            </div>
         {% endfor %}
-    {% endblock %}
+        {% endblock %}
     </div>
     <!-- 引入JavaScript文件 -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

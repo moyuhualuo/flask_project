@@ -109,7 +109,7 @@ def login():
 def logout():
     logout_user()  # 登出用户
     flash('Goodbye.')
-    return redirect(url_for('commit_page'))  # 确保这里使用正确的端点名称
+    return redirect(url_for('index_page'))  # 确保这里使用正确的端点名称
 
 @app.route('/', methods=['GET', 'POST'])
 def index_page():  # put application's code here
@@ -117,11 +117,40 @@ def index_page():  # put application's code here
         if not current_user.is_authenticated:
             return redirect(url_for('index_page'))
     return render_template('index.html')
-@app.route('/life')
+@app.route('/life', methods=['GET','POST'])
 def life_page():
-    contents = Md_test.query.filter_by(is_published=True).all()
+    contents = Md_test.query.filter_by(is_published=True, page='life').all()
     return render_template('life.html', contents=contents)
-
+@app.route('/life/delete/<int:id>', methods=['POST'])
+@login_required
+def delete_life(id):
+    md_test = Md_test.query.get_or_404(id)
+    db.session.delete(md_test)
+    db.session.commit()
+    flash('Successfully deleted.')
+    return redirect(url_for('life_page'))
+@app.route('/life/edit/<int:id>', methods=['POST'])
+@login_required
+def edit_life(id):
+    md_test = Md_test.query.get(id)
+    md_test.author = request.form.get('author')
+    md_test.content = request.form.get('content')
+    md_test.is_published = request.form.get('is_published')
+    db.session.commit()
+    flash('Successfully edited.')
+    return redirect(url_for('life_page'))
+@app.route('/life/add', methods=['POST'])
+@login_required
+def add_life():
+    if request.method == 'POST':
+        author = request.form.get('author')
+        content = request.form.get('content')
+        is_published = True
+        new_record = Md_test(page='life', author=author, content=content, is_published=is_published)
+        db.session.add(new_record)
+        db.session.commit()
+        flash('Successfully added.')
+        return redirect(url_for('life_page'))
 """可以删除的md"""
 @app.route('/self_learn', methods=['GET', 'POST'])
 def self_learn_page():
