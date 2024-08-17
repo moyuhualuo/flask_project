@@ -154,8 +154,39 @@ def add_life():
 """可以删除的md"""
 @app.route('/self_learn', methods=['GET', 'POST'])
 def self_learn_page():
-    contents = Md_test.query.filter_by(is_published=True).all()
+    contents = Md_test.query.filter_by(page='learn', is_published=True).all()
     return render_template('self_learn.html', contents=contents)
+@app.route('/self_learn/delete/<int:id>', methods=['POST'])
+@login_required
+def delete_self_learn(id):
+    md_test = Md_test.query.get_or_404(id)
+    db.session.delete(md_test)
+    db.session.commit()
+    flash('Successfully deleted.')
+    return redirect(url_for('self_learn_page'))
+@app.route('/self_learn/edit/<int:id>', methods=['POST'])
+@login_required
+def edit_self_learn(id):
+    md_test = Md_test.query.get_or_404(id)
+    md_test.author = request.form.get('author')
+    md_test.content = request.form.get('content')
+    md_test.is_published = True
+    db.session.commit()
+    flash('Successfully edited.')
+    return redirect(url_for('self_learn_page'))
+
+@app.route('/self_learn/add', methods=['POST'])
+@login_required
+def add_self_learn():
+    if request.method == 'POST':
+        author = request.form.get('author')
+        content = request.form.get('content')
+        is_published = True
+        new_record = Md_test(page='learn', author=author, content=content, is_published=is_published)
+        db.session.add(new_record)
+        db.session.commit()
+        flash('Successfully added.')
+        return redirect(url_for('self_learn_page'))
 @app.route('/commit', methods=['POST', 'GET'])
 def commit_page():
     if request.method == 'POST':

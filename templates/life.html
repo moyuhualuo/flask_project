@@ -14,9 +14,7 @@
             <li><a href="{{ url_for('index_page') }}"><img src="{{ url_for('static', filename='icon/home.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
             {% block content_one %}
             {% for content in contents %}
-                {% if content.page == 'life' %}
                 <li><a href="{{ '#' + content.author }}">{{ content.author }}</a></li>
-                {% endif %}
             {% endfor %}
             {% endblock %}
             <li>
