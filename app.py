@@ -135,7 +135,7 @@ def edit_life(id):
     md_test = Md_test.query.get(id)
     md_test.author = request.form.get('author')
     md_test.content = request.form.get('content')
-    md_test.is_published = request.form.get('is_published')
+    md_test.is_published = True
     db.session.commit()
     flash('Successfully edited.')
     return redirect(url_for('life_page'))
