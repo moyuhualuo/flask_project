@@ -15,7 +15,7 @@
             {% block content_one%}
             {% for content in contents %}
                 	{% if content.page == 'life' %}
-                <li><a href={{ content.author }}>{{ content.author }}</a><li>
+                <li><a href={{ '#' + content.author }}>{{ content.author }}</a><li>
                 {% endif %}
             {% endfor %}
             {% endblock %}

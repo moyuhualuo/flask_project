@@ -11,7 +11,7 @@ def insert_txt(txt_file, author):
                 content = file.read()
                 # 创建新的数据库条目
                 new_entry = Md_test(
-                    page='learn',
+                    page='life',
                     author=author,
                     content=content,  # 存储纯文本内容
                     is_published=True,

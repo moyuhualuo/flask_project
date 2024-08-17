@@ -3,7 +3,7 @@
     max-width: 400px;
     margin: 50px auto; /* 自动居中 */
     padding: 20px;
-    background-color: #f7f7f7;
+    background-color: powderblue;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -33,4 +33,69 @@ input[type="password"] {
 
 .btn:hover {
     background-color: #0056b3;
+}
+
+/* topbar css */
+#topbar {
+    padding: 0;     /* 去掉内边距 */
+    margin: 0;      /* 去掉外边距 */
+    width: 100%;    /* 设置宽度为 100% */
+    box-sizing: border-box; /* 确保内边距和边框不会影响宽度 */
+    margin-top: 0;       /* 将顶部边距设置为 0 */
+    margin-right: auto;  /* 右边距设置为自动（即自动填充剩余空间） */
+    margin-bottom: 0;    /* 将底部边距设置为 0 */
+    margin-left: auto;   /* 左边距设置为自动（即自动填充剩余空间） */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* 使用flex布局 */
+    justify-content: center; /* 居中对齐 */
+    align-items: center; /* 垂直居中 */
+    background-color: rgba(0, 0, 0, .075); /* 设置半透明背景 */
+}
+
+/* 列表项 */
+nav ul li {
+    margin: 0 20px; /* 控制间距 */
+}
+
+/* 链接样式 */
+nav ul li a {
+    text-decoration: none;
+    color: #A6A6A6; /* 字体颜色为白色 */
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    transition: color 0.3s ease; /* 悬停时颜色渐变 */
+}
+
+/* 悬停时的字体样式 */
+nav ul li a:hover {
+    color: #f0f0f0; /* 悬停时字体变为亮白 */
+}
+
+/* 保持Lable.svg颜色不变 */
+nav ul li link[rel="lable_icon"] {
+    color: inherit; /* 继承默认颜色 */
+    display: inline-block; /* 保持图标的显示 */
+}
+
+/* 图标样式 */
+nav ul li a .fa-github {
+    margin-right: 8px; /* 图标与文本间距 */
+}
+
+/* 链接项悬停时不改变图标颜色 */
+nav ul li a:hover .fa-github {
+    color: white; /* 保持图标颜色 */
+}
+.navbar:hover {
+    overflow-x: hidden;
+}
+body {
+    background: #1D1D1F;
 }

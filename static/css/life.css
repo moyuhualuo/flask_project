@@ -12,7 +12,7 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    background-color: black;
+    background-color: #1D1D1F;
     color: #fff;
     padding: 15px;
     text-align: center; /* 文字居中 */
@@ -60,7 +60,7 @@ body {
 .section {
     margin-left: 260px; /* 调整主内容区域的左边距以适应侧边栏 */
     padding: 40px;
-    background-color: black;
+    background-color: #1D1D1F;
 }
 .section pre, h2{
     color: #f7f8fa;
@@ -76,4 +76,12 @@ body {
     .section {
         margin-left: 0;
     }
+}
+pre {
+  font-family: Arial, sans-serif; /* 更改字体 */
+  font-size: 16px; /* 设置字体大小 */
+  line-height: 1.5; /* 行高，增加行间距 */
+  margin: 0 0 16px 0; /* 设置下边距 */
+  padding: 10px; /* 内边距 */
+    border-left: 4px solid #007bff; /* 左侧边框，增加视觉效果 */
 }

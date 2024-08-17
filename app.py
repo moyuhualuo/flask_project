@@ -99,9 +99,9 @@ def login():
             login_user(user)  # 登入用户
             flash('Login success.')
             return redirect(url_for('index_page'))  # 重定向到主页
-
-        flash('Invalid username or password.')  # 如果验证失败，显示错误消息
-        return redirect(url_for('login'))  # 重定向回登录页面
+        else:
+            flash('Invalid username or password.')  # 如果验证失败，显示错误消息
+            return redirect(url_for('login'))  # 重定向回登录页面
 
     return render_template('login.html')
 @app.route('/logout', methods=['GET', 'POST'])

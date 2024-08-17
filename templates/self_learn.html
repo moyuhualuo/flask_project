@@ -5,14 +5,14 @@
 {% block content_one %}
     {% for content in contents %}
         {% if content.page == 'learn' %}
-            <li><a href={{ content.author }}>{{ content.author }}</a><li>
+            <li><a href={{ '#' + content.author }}>{{ content.author }}</a><li>
         {% endif %}
     {% endfor %}
 {% endblock %}
 {% block content_two %}
 	 {% for content in contents %}
             {% if content.page == 'learn' %}
-            <h2 id={{ content.author }}>{{ content.author }}</h2>
+            <h2 id={{content.author }}>{{ content.author }}</h2>
             <pre>{{ content.content }}</pre>
             {% endif %}
         {% endfor %}
