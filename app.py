@@ -46,7 +46,7 @@ def admin(username, password):
         user.set_password(password)
     else:
         click.echo('Creating new user...')
-        user = User(username=username, name='Admin')
+        user = User(username=username, name=username)
         user.set_password(password)
         db.session.add(user)
     db.session.commit()
@@ -85,7 +85,7 @@ class Md_test(db.Model):
 
 @app.context_processor
 def inject_user():  # 函数名可以随意修改
-    user = User.query.first()
+    user = current_user
     return dict(user=user)  # 需要返回字典，等同于 return {'user': user}
 @app.route('/login', methods=['GET', 'POST'])
 def login():
