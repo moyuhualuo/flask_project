@@ -6,6 +6,7 @@ from markupsafe import escape
 from datetime import datetime
 import click
 import os
+import sys
 import time
 
 from markupsafe import Markup
@@ -18,6 +19,9 @@ app.config['SECRET_KEY'] = os.urandom(24)
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'index_page'
+WIN = sys.platform.startswith('win')
+prefix = '///' if WIN else '////'
+app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(os.path.dirname(app.root_path), os.getenv('DATABASE_FILE', 'data.db'))
 @login_manager.user_loader
 def load_user(user_id):
     user = User.query.get(int(user_id))
