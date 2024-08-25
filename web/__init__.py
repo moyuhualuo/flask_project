@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -10,7 +10,9 @@ login_manager.login_view = 'index_page'
 def create_app():
     app = Flask(__name__)
     app.config.from_object('config.Config')
-
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
     db.init_app(app)
     login_manager.init_app(app)
 

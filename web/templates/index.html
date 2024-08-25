@@ -17,8 +17,8 @@
     <nav id="#topbar">
     <ul>
         <li><a href="{{ url_for('web.secret_page') }}"><img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
-        <li><a href="{{ url_for('web.life_page') }}">入校指南</a></li>
-        <li><a href="{{ url_for('web.self_learn_page') }}">自学建议</a></li>
+        <li><a href="{{ url_for('web.life_page') }}">俗世奇事</a></li>
+        <li><a href="{{ url_for('web.self_learn_page') }}">随笔感悟</a></li>
         <li><a href="{{ url_for('web.commit_page') }}">留言板</a></li>
         <li><a href="{{ url_for('web.tools_page') }}">Web Tools</a></li>
         <li><a href="https://github.com/moyuhualuo">
@@ -34,27 +34,26 @@
     {% block content %}
         <section id="intro">
       <p class="name">
-        Hey，欢迎来到你的到来 <span>NIT Book.</span>
+        Hey，欢迎来到你的到来 <span>Moyu‘s Website.</span>
       </p>
-      <h2>这是一份计软入校指南，但不仅是计软</h2>
-            <p>入校以来，我期望有一份真正意义上的入学教导...</p>
+      <h2>寞雨听花落，偶得几时舒</h2>
+            <p>商叶何足惜，秋云更此时...</p>
       <p>
-        有一个夜晚很长，长到我思考要不要弥补这份我梦的入学指南，我不停搜索
-        <a href="https://www.bing.com/search?q=南阳理工学院入学指南">南阳理工学院入学指南</a>
+        喜欢寞雨听花落，喜欢Moyu(上课摸鱼？！）
       </p>
-        <p>很庆幸夜长而梦久</p>
+        <p>另一种层面，或许是喜欢思考？</p>
     </section>
 
     <div class="diving-line"></div>
     <div class="projects-div">
     <section id="projects">
-    <h2>贡献成员:</h2>
+    <h2>432风采:</h2>
     <article>
       <div class="text">
         <h4>局限性</h4>
         <h3>不足补充</h3>
         <p class="blackbox">
-         由于时间，精力，所处知识层次具有自身局限性，故，网站制作有所不足。 在此特别感谢各位已经毕业，甚至临近毕业，不同专业的同学们的大力支持。<br />Yours sincerely
+         由于时间，精力，所处知识层次具有自身局限性，故，网站制作有所不足。 <br />Yours sincerely
         </p>
 
         <h4>2024-08-17:</h4>
@@ -64,10 +63,12 @@
         </ul>
       </div>
        <div class="user-icons">
-           <img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="Icon" title="Moyu" class="user-img">
-           <img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="Icon" class="user-img">
-           <img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="Icon" class="user-img">
-           <img src="{{ url_for('static', filename='img/demo.png') }}" alt="img" title="zl" class="user-img">
+           <img src="{{ url_for('static', filename='img/wyh.jpg') }}" alt="img" title="wyh" class="user-img">
+           <img src="{{ url_for('static', filename='img/lps.jpg') }}" alt="img" title="lps" class="user-img">
+           <img src="{{ url_for('static', filename='img/stz.jpg') }}" alt="img" title="stz" class="user-img">
+           <img src="{{ url_for('static', filename='img/gwc.jpg') }}" alt="img" title="gwc" class="user-img">
+           <img src="{{ url_for('static', filename='img/zl.jpg') }}" alt="img" title="zl" class="user-img">
+           <img src="{{ url_for('static', filename='icon/icon.svg') }}" alt="img" title="lpf" class="user-img">
     <!-- 更多图标 -->
     </div>
       </article>
