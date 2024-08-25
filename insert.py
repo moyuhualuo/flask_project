@@ -25,4 +25,4 @@ def insert_txt(txt_file, author):
             print(f"File {txt_file} does not exist.")
 if __name__ == '__main__':
 
-    insert_txt('static/text/demo.txt', 'life_test')
+    insert_txt('web/static/text/demo.txt', 'life_test')
