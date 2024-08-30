@@ -1,5 +1,5 @@
 # insert_data.py
-from app import app, db, Web
+from app import app
 
 
 def insert_data(id_type, url, name, description):

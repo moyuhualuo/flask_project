@@ -161,6 +161,39 @@ def tools_page():
     webs = Web.query.all()
     return render_template('tools.html', webs=webs)
 
+@bp.route('/tools/add', methods=['GET', 'POST'])
+@login_required
+def tools_add():
+    if request.method == 'POST':
+        id_type = request.form.get('id_type')
+        link_url = request.form.get('link_url')
+        link_name = request.form.get('link_name')
+        description = request.form.get('description')
+        new_record = Web(id_type=id_type, link_url=link_url, link_name=link_name, description=description)
+        db.session.add(new_record)
+        db.session.commit()
+        flash('Successfully added.')
+        return redirect(url_for('web.tools_page'))
+@bp.route('/tools/delete/<int:id>', methods=['POST'])
+@login_required
+def delete_tools(id):
+    web = Web.query.get_or_404(id)
+    db.session.delete(web)
+    db.session.commit()
+    flash('Successfully deleted.')
+    return redirect(url_for('web.tools_page'))
+
+@bp.route('/tools/edit/<int:id>', methods=['POST'])
+@login_required
+def edit_tools(id):
+    web = Web.query.get_or_404(id)
+    web.id_type = request.form.get('id_type')
+    web.link_name = request.form.get('link_name')
+    web.link_url = request.form.get('link_url')
+    web.description = request.form.get('description')
+    db.session.commit()
+    flash('Successfully updated.')
+    return redirect(url_for('web.tools_page'))
 
 @bp.route('/secret')
 def secret_page():

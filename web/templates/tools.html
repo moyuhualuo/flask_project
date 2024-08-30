@@ -10,71 +10,185 @@
 <div class="page_name">
 
     <h2>
-        <a href="{{ url_for('web.index_page') }}"><img src="{{ url_for('static', filename='icon/home.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a>
+        <a href="{{ url_for('web.index_page') }}"><img src="{{ url_for('static', filename='icon/home.svg') }}"
+                                                       alt="Icon" style="width: 24px; height: 24px;"></a>
         🥳 Tools Shopping online 🥳
     </h2>
 </div>
+
+{% if current_user.is_authenticated %}
+    <div class="add-button">
+        <button type="button" id="addButton">Add</button>
+        <form id="inputForm" method="POST" action="{{ url_for('web.tools_add') }}">
+            <input type="text" name="id_type" placeholder="ID Type">
+            <input type="text" name="link_url" placeholder="Link URL">
+            <input type="text" name="link_name" placeholder="Link Name">
+            <textarea name="description" placeholder="Description"></textarea>
+            <!-- 提交按钮 -->
+            <input type="submit" value="Submit">
+            <button type="button" id="cancelButton">Cancel</button>
+        </form>
+    </div>
+{% endif %}
 <div class="site-lists">
     <table class="styled-table">
         <thead>
-            <tr>
-                <th><img src="{{ url_for('static', filename='icon/web.svg') }}" title="网址" alt="web_svg" style="width: 24px; height: 24px;"></th>
-                <th>Information</th>
-            </tr>
+        <tr>
+            <th><img src="{{ url_for('static', filename='icon/web.svg') }}" title="网址" alt="web_svg"
+                     style="width: 24px; height: 24px;"></th>
+            <th>Information</th>
+        </tr>
         </thead>
         <tbody>
-         {% for web in webs%}
+        {% for web in webs %}
             {% if web.id_type == 'web' %}
-               <tr>
-                <td><a href={{ web.link_url }}>{{ web.link_name }}</a> </td>
-                <td>{{ web.description }}</td>
-            </tr>
+                <tr>
+                    <td><a href={{ web.link_url }}>{{ web.link_name }}</a></td>
+                    <td>{{ web.description }}</td>
+                    {% if current_user.is_authenticated %}
+                         <td>
+                        <button type="button" class="btn btn-edit" onclick="showEditForm({{ web.id }})">Edit</button>
+                        <div id="edit-form-{{ web.id }}" style="display:none;">
+                            <form method="POST" action="{{ url_for('web.edit_tools', id=web.id) }}">
+                                 <label for="id_type-{{ web.id }}">site 类型:</label>
+                                <input type="text" id="id_type-{{ web.id }}" name="id_type" value="{{ web.id_type }}"
+                                       required>
+
+                                <label for="link_name-{{ web.id }}">链接名字:</label>
+                                <input type="text" id="author-{{ web.id }}" name="link_name" value="{{ web.link_name }}"
+                                       required>
+                                <label for="link_url-{{ web.id }}">链接地址:</label>
+                                <textarea id="link_url-{{ web.id }}" name="link_url"
+                                          required>{{ web.link_url }}</textarea>
+                                <label for="link_url-{{ web.id }}">描述:</label>
+                                <textarea id="description-{{ web.id }}" name="description"
+                                          required>{{ web.description }}</textarea>
+                                <button type="submit" class="btn-save">Save</button>
+                                <button type="button" id="btn-cancel" onclick="hideEditForm({{ web.id }})">Cancel
+                                </button>
+                            </form>
+                        </div>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('web.delete_tools', id=web.id) }}"
+                                  style="display:inline;">
+                                <button type="submit" class="btn btn-delete">Delete</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
             {% endif %}
-         {% endfor %}
-            <!-- 添加更多的行 -->
+        {% endfor %}
+        <!-- 添加更多的行 -->
         </tbody>
     </table>
 </div>
 <div class="apps">
     <table class="styled-table">
         <thead>
-            <tr>
-                <th><img src="{{ url_for('static', filename='icon/app.svg') }}" title="应用推荐" alt="app_svg" style="width: 24px; height: 24px;"></th>
-                <th>Information</th>
-            </tr>
+        <tr>
+            <th><img src="{{ url_for('static', filename='icon/app.svg') }}" title="应用推荐" alt="app_svg"
+                     style="width: 24px; height: 24px;"></th>
+            <th>Information</th>
+        </tr>
         </thead>
         <tbody>
-            {% for web in webs%}
+        {% for web in webs %}
             {% if web.id_type == 'app' %}
-               <tr>
-                <td><a href={{ web.link_url }}>{{ web.link_name }}</a> </td>
-                <td>{{ web.description }}</td>
-            </tr>
+                <tr>
+                    <td><a href={{ web.link_url }}>{{ web.link_name }}</a></td>
+                    <td>{{ web.description }}</td>
+                    {% if current_user.is_authenticated %}
+                         <td>
+                        <button type="button" class="btn btn-edit" onclick="showEditForm({{ web.id }})">Edit</button>
+                        <div id="edit-form-{{ web.id }}" style="display:none;">
+                            <form method="POST" action="{{ url_for('web.edit_tools', id=web.id) }}">
+                                 <label for="id_type-{{ web.id }}">site 类型:</label>
+                                <input type="text" id="id_type-{{ web.id }}" name="id_type" value="{{ web.id_type }}"
+                                       required>
+
+                                <label for="link_name-{{ web.id }}">链接名字:</label>
+                                <input type="text" id="author-{{ web.id }}" name="link_name" value="{{ web.link_name }}"
+                                       required>
+                                <label for="link_url-{{ web.id }}">链接地址:</label>
+                                <textarea id="link_url-{{ web.id }}" name="link_url"
+                                          required>{{ web.link_url }}</textarea>
+                                <label for="link_url-{{ web.id }}">描述:</label>
+                                <textarea id="description-{{ web.id }}" name="description"
+                                          required>{{ web.description }}</textarea>
+                                <button type="submit" class="btn-save">Save</button>
+                                <button type="button" id="btn-cancel" onclick="hideEditForm({{ web.id }})">Cancel
+                                </button>
+                            </form>
+                        </div>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('web.delete_tools', id=web.id) }}"
+                                  style="display:inline;">
+                                <button type="submit" class="btn btn-delete">Delete</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
             {% endif %}
-         {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
 </div>
 <div class="books">
     <table class="styled-table">
         <thead>
-            <tr>
-                <th><img src="{{ url_for('static', filename='icon/book.svg') }}" title="书籍推荐" alt="book_svg" style="width: 24px; height: 24px;"></th>
-                <th>Information</th>
-            </tr>
+        <tr>
+            <th><img src="{{ url_for('static', filename='icon/book.svg') }}" title="书籍推荐" alt="book_svg"
+                     style="width: 24px; height: 24px;"></th>
+            <th>Information</th>
+        </tr>
         </thead>
         <tbody>
-            {% for web in webs%}
+        {% for web in webs %}
             {% if web.id_type == 'book' %}
-               <tr>
-                <td><a href={{ web.link_url }}>{{ web.link_name }}</a> </td>
-                <td>{{ web.description }}</td>
-            </tr>
+                <tr>
+                    <td><a href={{ web.link_url }}>{{ web.link_name }}</a></td>
+                    <td>{{ web.description }}</td>
+
+                    {% if current_user.is_authenticated %}
+                        <td>
+                        <button type="button" class="btn btn-edit" onclick="showEditForm({{ web.id }})">Edit</button>
+                        <div id="edit-form-{{ web.id }}" style="display:none;">
+                            <form method="POST" action="{{ url_for('web.edit_tools', id=web.id) }}">
+                                 <label for="id_type-{{ web.id }}">site 类型:</label>
+                                <input type="text" id="id_type-{{ web.id }}" name="id_type" value="{{ web.id_type }}"
+                                       required>
+
+                                <label for="link_name-{{ web.id }}">链接名字:</label>
+                                <input type="text" id="author-{{ web.id }}" name="link_name" value="{{ web.link_name }}"
+                                       required>
+                                <label for="link_url-{{ web.id }}">链接地址:</label>
+                                <textarea id="link_url-{{ web.id }}" name="link_url"
+                                          required>{{ web.link_url }}</textarea>
+                                <label for="link_url-{{ web.id }}">描述:</label>
+                                <textarea id="description-{{ web.id }}" name="description"
+                                          required>{{ web.description }}</textarea>
+                                <button type="submit" class="btn-save">Save</button>
+                                <button type="button" id="btn-cancel" onclick="hideEditForm({{ web.id }})">Cancel
+                                </button>
+                            </form>
+                        </div>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('web.delete_tools', id=web.id) }}"
+                                  style="display:inline;">
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
             {% endif %}
-         {% endfor %}
-            <!-- 添加更多的行 -->
+        {% endfor %}
+        <!-- 添加更多的行 -->
         </tbody>
     </table>
 </div>
+<script src="{{ url_for('static', filename='js/tools.js') }}"></script>
 </body>
 </html>
