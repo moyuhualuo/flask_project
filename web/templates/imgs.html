@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Wall</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/imgs.css') }}" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap">
+</head>
+<body>
+<div class="topper dancing-script-topper">
+    Welcome to Images Wall!
+</div>
+<div class="box-3D">
+    <div class="container">
+      {% for index in range(1, 39) %}
+<img src="{{ url_for('static', filename='img_wall/' ~index ~ '.jpg') }}" alt="Icon" >
+    {% endfor %}
+    </div>
+</div>
+<div class="dancing-script-topper topper">
+    Waiting add images……
+</div>
+            <li><a href="{{ url_for('web.index_page') }}"><img src="{{ url_for('static', filename='icon/home.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
+
+<script src="{{ url_for('static', filename='js/imgs.js') }}"></script>
+</body>
+</html>

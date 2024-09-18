@@ -251,4 +251,6 @@ def settings():
         return redirect(url_for('web.index_page'))
     return render_template('settings.html')
 
-
+@bp.route('/imgs')
+def imgs_page():
+    return render_template('imgs.html')
