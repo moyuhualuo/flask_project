@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebTools Info</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tools.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}" type="text/css">
+    <script defer src="{{ url_for('static', filename='js/theme.js') }}"></script>
 </head>
 <body>
 <div class="page_name">
@@ -43,7 +45,7 @@
         {% for web in webs %}
             {% if web.id_type == 'web' %}
                 <tr>
-                    <td><a href={{ web.link_url }}>{{ web.link_name }}</a></td>
+                    <td><a href="{{ web.link_url }}" target="_blank" rel="noopener noreferrer">{{ web.link_name }}</a></td>
                     <td>{{ web.description }}</td>
                     {% if current_user.is_authenticated %}
                          <td>
@@ -96,7 +98,7 @@
         {% for web in webs %}
             {% if web.id_type == 'app' %}
                 <tr>
-                    <td><a href={{ web.link_url }}>{{ web.link_name }}</a></td>
+                    <td><a href="{{ web.link_url }}" target="_blank" rel="noopener noreferrer">{{ web.link_name }}</a></td>
                     <td>{{ web.description }}</td>
                     {% if current_user.is_authenticated %}
                          <td>
@@ -148,7 +150,7 @@
         {% for web in webs %}
             {% if web.id_type == 'book' %}
                 <tr>
-                    <td><a href={{ web.link_url }}>{{ web.link_name }}</a></td>
+                    <td><a href="{{ web.link_url }}" target="_blank" rel="noopener noreferrer">{{ web.link_name }}</a></td>
                     <td>{{ web.description }}</td>
 
                     {% if current_user.is_authenticated %}

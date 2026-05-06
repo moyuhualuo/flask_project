@@ -1,256 +1,309 @@
-from flask import Blueprint, render_template, url_for, jsonify, request, redirect, flash
-from .models import User, Like, Message, Web, Md_test
-from flask_login import login_user, login_required, logout_user, current_user
-from datetime import datetime
-from .functions import get_random_gradient
+from datetime import datetime, timezone
+
+from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
+from flask_login import current_user, login_required, login_user, logout_user
+
 from . import db
+from .functions import get_random_gradient
+from .models import Like, Md_test, Message, User, Web
 
 bp = Blueprint("web", __name__)
+VALID_WEB_TYPES = {"web", "app", "book"}
+
+
+def _form_text(name, max_length=None):
+    value = (request.form.get(name) or "").strip()
+    if max_length and len(value) > max_length:
+        return ""
+    return value
+
+
+def _get_content_form():
+    author = _form_text("author", 20)
+    content = _form_text("content")
+    if not author or not content:
+        flash("标题和内容不能为空。", "warning")
+        return None, None
+    return author, content
+
+
+def _published_contents(page):
+    return (
+        Md_test.query.filter_by(page=page, is_published=True)
+        .order_by(Md_test.id.desc())
+        .all()
+    )
 
 
 @bp.context_processor
-def inject_user():  # 函数名可以随意修改
-    user = current_user
-    return dict(user=user)  # 需要返回字典，等同于 return {'user': user}
+def inject_user():
+    return {"user": current_user}
 
 
-@bp.route('/login', methods=['GET', 'POST'])
+@bp.get("/healthz")
+def healthz():
+    return jsonify({"status": "ok"})
+
+
+@bp.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    if request.method == "POST":
+        username = _form_text("username", 20)
+        password = request.form.get("password") or ""
 
         if not username or not password:
-            flash('Invalid input.')
-            return redirect(url_for('web.login'))
+            flash("用户名和密码不能为空。", "warning")
+            return redirect(url_for("web.login"))
+
         user = User.query.filter_by(username=username).first()
+        if user and user.validate_password(password):
+            login_user(user)
+            flash("登录成功。", "success")
+            return redirect(url_for("web.index_page"))
 
-        # 验证用户名和密码是否一致
-        if user and username == user.username and user.validate_password(password):
-            login_user(user)  # 登入用户
-            flash('Login success.')
-            return redirect(url_for('web.index_page'))  # 重定向到主页
-        else:
-            flash('Invalid username or password.')  # 如果验证失败，显示错误消息
-            return redirect(url_for('web.login'))  # 重定向回登录页面
+        flash("用户名或密码错误。", "danger")
+        return redirect(url_for("web.login"))
 
-    return render_template('login.html')
+    return render_template("login.html")
 
 
-@bp.route('/logout', methods=['GET', 'POST'])
+@bp.route("/logout", methods=["GET", "POST"])
 @login_required
 def logout():
-    logout_user()  # 登出用户
-    flash('Goodbye.')
-
-    return redirect(url_for('web.index_page'))  # 确保这里使用正确的端点名称
-
-
-@bp.route('/', methods=['GET', 'POST'])
-def index_page():  # put application's code here
-    if request.method == 'POST':
-        if not current_user.is_authenticated:
-            return redirect(url_for('web.index_page'))
-    return render_template('index.html')
+    logout_user()
+    flash("已退出登录。", "success")
+    return redirect(url_for("web.index_page"))
 
 
-@bp.route('/life', methods=['GET', 'POST'])
+@bp.get("/")
+def index_page():
+    return render_template("index.html")
+
+
+@bp.get("/life")
 def life_page():
-    contents = Md_test.query.filter_by(is_published=True, page='life').all()
-    return render_template('life.html', contents=contents)
+    return render_template("life.html", contents=_published_contents("life"))
 
 
-@bp.route('/life/delete/<int:id>', methods=['POST'])
+@bp.post("/life/delete/<int:id>")
 @login_required
 def delete_life(id):
     md_test = Md_test.query.get_or_404(id)
     db.session.delete(md_test)
     db.session.commit()
-    flash('Successfully deleted.')
-    return redirect(url_for('web.life_page'))
+    flash("删除成功。", "success")
+    return redirect(url_for("web.life_page"))
 
 
-@bp.route('/life/edit/<int:id>', methods=['POST'])
+@bp.post("/life/edit/<int:id>")
 @login_required
 def edit_life(id):
-    md_test = Md_test.query.get(id)
-    md_test.author = request.form.get('author')
-    md_test.content = request.form.get('content')
+    md_test = Md_test.query.get_or_404(id)
+    author, content = _get_content_form()
+    if not author:
+        return redirect(url_for("web.life_page"))
+
+    md_test.author = author
+    md_test.content = content
     md_test.is_published = True
     db.session.commit()
-    flash('Successfully edited.')
-    return redirect(url_for('web.life_page'))
+    flash("更新成功。", "success")
+    return redirect(url_for("web.life_page"))
 
 
-@bp.route('/life/add', methods=['POST'])
+@bp.post("/life/add")
 @login_required
 def add_life():
-    if request.method == 'POST':
-        author = request.form.get('author')
-        content = request.form.get('content')
-        is_published = True
-        new_record = Md_test(page='life', author=author, content=content, is_published=is_published)
-        db.session.add(new_record)
-        db.session.commit()
-        flash('Successfully added.')
-        return redirect(url_for('web.life_page'))
+    author, content = _get_content_form()
+    if not author:
+        return redirect(url_for("web.life_page"))
+
+    db.session.add(Md_test(page="life", author=author, content=content, is_published=True))
+    db.session.commit()
+    flash("新增成功。", "success")
+    return redirect(url_for("web.life_page"))
 
 
-@bp.route('/self_learn', methods=['GET', 'POST'])
+@bp.get("/self_learn")
 def self_learn_page():
-    contents = Md_test.query.filter_by(page='learn', is_published=True).all()
-    return render_template('self_learn.html', contents=contents)
+    return render_template("self_learn.html", contents=_published_contents("learn"))
 
 
-@bp.route('/self_learn/delete/<int:id>', methods=['POST'])
+@bp.post("/self_learn/delete/<int:id>")
 @login_required
 def delete_self_learn(id):
     md_test = Md_test.query.get_or_404(id)
     db.session.delete(md_test)
     db.session.commit()
-    flash('Successfully deleted.')
-    return redirect(url_for('web.self_learn_page'))
+    flash("删除成功。", "success")
+    return redirect(url_for("web.self_learn_page"))
 
 
-@bp.route('/self_learn/edit/<int:id>', methods=['POST'])
+@bp.post("/self_learn/edit/<int:id>")
 @login_required
 def edit_self_learn(id):
     md_test = Md_test.query.get_or_404(id)
-    md_test.author = request.form.get('author')
-    md_test.content = request.form.get('content')
+    author, content = _get_content_form()
+    if not author:
+        return redirect(url_for("web.self_learn_page"))
+
+    md_test.author = author
+    md_test.content = content
     md_test.is_published = True
     db.session.commit()
-    flash('Successfully edited.')
-    return redirect(url_for('web.self_learn_page'))
+    flash("更新成功。", "success")
+    return redirect(url_for("web.self_learn_page"))
 
 
-@bp.route('/self_learn/add', methods=['POST'])
+@bp.post("/self_learn/add")
 @login_required
 def add_self_learn():
-    if request.method == 'POST':
-        author = request.form.get('author')
-        content = request.form.get('content')
-        is_published = True
-        new_record = Md_test(page='learn', author=author, content=content, is_published=is_published)
-        db.session.add(new_record)
-        db.session.commit()
-        flash('Successfully added.')
+    author, content = _get_content_form()
+    if not author:
+        return redirect(url_for("web.self_learn_page"))
 
-        return redirect(url_for('web.self_learn_page'))
+    db.session.add(Md_test(page="learn", author=author, content=content, is_published=True))
+    db.session.commit()
+    flash("新增成功。", "success")
+    return redirect(url_for("web.self_learn_page"))
 
 
-@bp.route('/commit', methods=['POST', 'GET'])
+@bp.route("/commit", methods=["GET", "POST"])
 def commit_page():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        content = request.form.get('message')
-        now = datetime.utcnow()
-        time = now.strftime('%Y-%m-%d %H:%M:%S')
-        new_message = Message(name=name, content=content, time=time)
-        db.session.add(new_message)
+    if request.method == "POST":
+        name = _form_text("name", 20)
+        content = _form_text("message")
+        if not name or not content:
+            flash("昵称和留言不能为空。", "warning")
+            return redirect(url_for("web.commit_page"))
+
+        now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+        db.session.add(Message(name=name, content=content, time=now))
         db.session.commit()
-        flash('Message added.', 'success')
-        return redirect(url_for('web.commit_page'))
+        flash("留言成功。", "success")
+        return redirect(url_for("web.commit_page"))
 
-    messages = Message.query.all()
-    return render_template('commit.html', messages=messages, get_random_gradient=get_random_gradient)
+    messages = Message.query.order_by(Message.id.desc()).all()
+    return render_template(
+        "commit.html",
+        messages=messages,
+        get_random_gradient=get_random_gradient,
+    )
 
 
-@bp.route('/tools')
+@bp.get("/tools")
 def tools_page():
-    webs = Web.query.all()
-    return render_template('tools.html', webs=webs)
+    webs = Web.query.order_by(Web.id.desc()).all()
+    return render_template("tools.html", webs=webs)
 
-@bp.route('/tools/add', methods=['GET', 'POST'])
+
+@bp.post("/tools/add")
 @login_required
 def tools_add():
-    if request.method == 'POST':
-        id_type = request.form.get('id_type')
-        link_url = request.form.get('link_url')
-        link_name = request.form.get('link_name')
-        description = request.form.get('description')
-        new_record = Web(id_type=id_type, link_url=link_url, link_name=link_name, description=description)
-        db.session.add(new_record)
-        db.session.commit()
-        flash('Successfully added.')
-        return redirect(url_for('web.tools_page'))
-@bp.route('/tools/delete/<int:id>', methods=['POST'])
+    id_type = _form_text("id_type", 20)
+    link_url = _form_text("link_url", 255)
+    link_name = _form_text("link_name", 255)
+    description = _form_text("description")
+
+    if id_type not in VALID_WEB_TYPES or not link_url or not link_name:
+        flash("分类、链接和名称不能为空，分类仅支持 web/app/book。", "warning")
+        return redirect(url_for("web.tools_page"))
+
+    db.session.add(
+        Web(
+            id_type=id_type,
+            link_url=link_url,
+            link_name=link_name,
+            description=description,
+        )
+    )
+    db.session.commit()
+    flash("新增成功。", "success")
+    return redirect(url_for("web.tools_page"))
+
+
+@bp.post("/tools/delete/<int:id>")
 @login_required
 def delete_tools(id):
     web = Web.query.get_or_404(id)
     db.session.delete(web)
     db.session.commit()
-    flash('Successfully deleted.')
-    return redirect(url_for('web.tools_page'))
+    flash("删除成功。", "success")
+    return redirect(url_for("web.tools_page"))
 
-@bp.route('/tools/edit/<int:id>', methods=['POST'])
+
+@bp.post("/tools/edit/<int:id>")
 @login_required
 def edit_tools(id):
     web = Web.query.get_or_404(id)
-    web.id_type = request.form.get('id_type')
-    web.link_name = request.form.get('link_name')
-    web.link_url = request.form.get('link_url')
-    web.description = request.form.get('description')
+    id_type = _form_text("id_type", 20)
+    link_name = _form_text("link_name", 255)
+    link_url = _form_text("link_url", 255)
+    description = _form_text("description")
+
+    if id_type not in VALID_WEB_TYPES or not link_url or not link_name:
+        flash("分类、链接和名称不能为空，分类仅支持 web/app/book。", "warning")
+        return redirect(url_for("web.tools_page"))
+
+    web.id_type = id_type
+    web.link_name = link_name
+    web.link_url = link_url
+    web.description = description
     db.session.commit()
-    flash('Successfully updated.')
-    return redirect(url_for('web.tools_page'))
+    flash("更新成功。", "success")
+    return redirect(url_for("web.tools_page"))
 
-@bp.route('/secret')
+
+@bp.get("/secret")
 def secret_page():
-    return render_template('secret.html')
+    return render_template("secret.html")
 
 
-@bp.route('/like/<int:item_id>', methods=['POST'])
+@bp.post("/like/<int:item_id>")
 def like(item_id):
-    like_record = Like.query.get(item_id)
+    like_record = db.session.get(Like, item_id)
     if like_record is None:
         like_record = Like(id=item_id, like_count=1)
         db.session.add(like_record)
     else:
         like_record.like_count += 1
     db.session.commit()
-    return jsonify({'item_id': item_id, 'like_count': like_record.like_count})
+    return jsonify({"item_id": item_id, "like_count": like_record.like_count})
 
 
-@bp.route('/get_like_count/<int:item_id>', methods=['GET'])
+@bp.get("/get_like_count/<int:item_id>")
 def get_like_count(item_id):
-    like_record = Like.query.get(item_id)
+    like_record = db.session.get(Like, item_id)
     like_count = like_record.like_count if like_record else 0
-    return jsonify({'item_id': item_id, 'like_count': like_count})
+    return jsonify({"item_id": item_id, "like_count": like_count})
 
 
-@bp.route('/delete/<int:message_id>', methods=['POST', 'GET'])
+@bp.post("/delete/<int:message_id>")
 @login_required
 def delete_message(message_id):
-    if request.method == 'POST':
-        message = Message.query.get_or_404(message_id)
-        if message:
-            db.session.delete(message)
-            db.session.commit()
-            flash('Message deleted.')
-        return redirect(url_for('web.commit_page'))
-    return redirect(url_for('web.commit_page'))
+    message = Message.query.get_or_404(message_id)
+    db.session.delete(message)
+    db.session.commit()
+    flash("留言已删除。", "success")
+    return redirect(url_for("web.commit_page"))
 
 
-@bp.route('/settings', methods=['GET', 'POST'])
+@bp.route("/settings", methods=["GET", "POST"])
 @login_required
 def settings():
-    if request.method == 'POST':
-        name = request.form['name']
-        if not name or len(name) > 20:
-            flash('Invalid input.')
-            return redirect(url_for('web.settings'))
+    if request.method == "POST":
+        name = _form_text("name", 20)
+        if not name:
+            flash("昵称不能为空，且不能超过 20 个字符。", "warning")
+            return redirect(url_for("web.settings"))
 
         current_user.name = name
-        # current_user 会返回当前登录用户的数据库记录对象
-        # 等同于下面的用法
-        # user = User.query.first()
-        # user.name = name
         db.session.commit()
-        flash('Settings updated.')
-        return redirect(url_for('web.index_page'))
-    return render_template('settings.html')
+        flash("设置已更新。", "success")
+        return redirect(url_for("web.index_page"))
+    return render_template("settings.html")
 
-@bp.route('/imgs')
+
+@bp.get("/imgs")
 def imgs_page():
-    return render_template('imgs.html')
+    return render_template("imgs.html")

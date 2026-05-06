@@ -7,6 +7,8 @@
     {% block head %}
     <title>demo</title>
     {% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}" type="text/css">
+    <script defer src="{{ url_for('static', filename='js/theme.js') }}"></script>
 </head>
 <body>
     <nav class="sidebar">
@@ -14,7 +16,7 @@
             <li><a href="{{ url_for('web.index_page') }}"><img src="{{ url_for('static', filename='icon/home.svg') }}" alt="Icon" style="width: 24px; height: 24px;"></a></li>
             {% block content_one %}
             {% for content in contents %}
-                <li><a href="{{ '#' + content.author }}">{{ content.author }}</a></li>
+                <li><a href="#content-{{ content.id }}">{{ content.author }}</a></li>
             {% endfor %}
             {% endblock %}
             <li>
@@ -47,7 +49,7 @@
         <!-- 显示所有内容 -->
         {% for content in contents %}
             <div class="content-item">
-                <h2 id="{{ content.author }}">{{ content.author }}</h2>
+                <h2 id="content-{{ content.id }}">{{ content.author }}</h2>
                 <pre>{{ content.content }}</pre>
 
                 {% if current_user.is_authenticated %}

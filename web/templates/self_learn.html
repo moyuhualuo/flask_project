@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content_one %}
     {% for content in contents %}
-            <li><a href={{ '#' + content.author }}>{{ content.author }}</a><li>
+            <li><a href="#content-{{ content.id }}">{{ content.author }}</a></li>
     {% endfor %}
 {% endblock %}
 {% block content_two %}
@@ -27,7 +27,7 @@
         {% endif %}
 	 {% for content in contents %}
             <div class="content-item">
-                <h2 id="{{ content.author }}">{{ content.author }}</h2>
+                <h2 id="content-{{ content.id }}">{{ content.author }}</h2>
                 <pre>{{ content.content }}</pre>
                 {% if current_user.is_authenticated %}
                 <button type="button" class="btn btn-edit" onclick="showEditForm({{ content.id }})">Edit</button>

@@ -1,15 +1,16 @@
 import click
-from flask import current_app
 from flask.cli import with_appcontext
 from . import db
+
+
 @click.command(name='initdb')
 @click.option('--drop', is_flag=True, help='Create after drop.')
 @with_appcontext
 def initdb(drop):
     """Initialize the database."""
     if drop:
-       click.echo("Dropping all tables...")
-       db.drop_all()
+        click.echo("Dropping all tables...")
+        db.drop_all()
     click.echo('Creating all tables...')
     db.create_all()
     click.echo('Initialized database.')
@@ -21,7 +22,7 @@ def initdb(drop):
 @with_appcontext
 def admin(username, password):
     """Create or update an admin user."""
-    from .models import User  # 从应用模块中导入 User
+    from .models import User
 
     user = User.query.filter_by(username=username).first()
     if user:

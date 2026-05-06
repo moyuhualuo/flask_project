@@ -18,11 +18,11 @@ const growSnake = () => {
 };
 
 const getNewFoodPosition = () => {
-  let randowFoodPosition = randomGridPosition();
-  while (onSnake(randowFoodPosition)) {
-    randowFoodPosition = randomGridPosition();
+  let randomFoodPosition = randomGridPosition();
+  while (onSnake(randomFoodPosition)) {
+    randomFoodPosition = randomGridPosition();
   }
-  return randowFoodPosition;
+  return randomFoodPosition;
 };
 
 const randomGridPosition = () => {
@@ -41,7 +41,7 @@ const OutofBounds = (position) => {
   );
 };
 
-const snakeOutofBounds = (position) => {
+const snakeOutofBounds = () => {
   return OutofBounds(snakeBody[0]);
 };
 

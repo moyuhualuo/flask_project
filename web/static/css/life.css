@@ -4,6 +4,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    background: var(--page-bg);
+    color: var(--page-text);
 }
 
 .sidebar {
@@ -12,9 +14,10 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    background-color: #1D1D1F;
-    color: #fff;
+    background: var(--panel-bg);
+    color: var(--panel-text);
     padding: 15px;
+    border-right: 1px solid var(--line-color);
     text-align: center; /* 文字居中 */
 }
 
@@ -30,12 +33,12 @@ body {
 }
 
 .sidebar-menu a {
-    color: #2fa89c;
+    color: var(--link-color);
     text-decoration: none;
     font-size: 18px;
     display: block; /* 使链接成为块级元素 */
     padding: 10px;
-    border-radius: 4px; /* 可选：圆角 */
+    border-radius: 6px;
     position: relative; /* 使伪元素定位相对于链接 */
 }
 
@@ -53,17 +56,30 @@ body {
 }
 
 .sidebar-menu a:hover::after {
-    background-color: rgba(255, 255, 255, 0.2); /* 悬停时的背景色 */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 悬停时的阴影效果 */
+    background-color: color-mix(in srgb, var(--accent-color) 16%, transparent);
+    box-shadow: none;
 }
 
 .section {
     margin-left: 260px; /* 调整主内容区域的左边距以适应侧边栏 */
     padding: 40px;
-    background-color: #1D1D1F;
+    min-height: 100vh;
+    background: var(--page-bg);
 }
-.section pre, h2{
-    color: #C0C0C0;
+
+.section h2 {
+    color: var(--page-text);
+    margin-bottom: 12px;
+}
+
+.content-item {
+    max-width: 900px;
+    margin: 0 auto 24px;
+    padding: 22px;
+    border: 1px solid var(--line-color);
+    border-radius: 8px;
+    background: var(--content-bg);
+    box-shadow: var(--soft-shadow);
 }
 @media (max-width: 768px) {
     .sidebar {
@@ -82,8 +98,14 @@ pre {
   font-size: 16px; /* 设置字体大小 */
   line-height: 1.5; /* 行高，增加行间距 */
   margin: 0 0 16px 0; /* 设置下边距 */
-  padding: 10px; /* 内边距 */
-    border-left: 4px solid #007bff; /* 左侧边框，增加视觉效果 */
+  padding: 14px 16px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--page-text);
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 6px;
 }
 
 input[type="text"],
@@ -92,12 +114,12 @@ textarea {
     padding: 0.8rem; /* 增加内边距以扩大输入框 */
     margin-top: 0.5rem;
     margin-bottom: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--field-border);
     border-radius: 5px;
     font-size: 1.2rem; /* 增加字体大小 */
     box-sizing: border-box; /* 确保内边距不会影响总宽度 */
-    color: #1D1D1F;
-    background: #D8BFD8
+    color: var(--field-text);
+    background: var(--field-bg);
 }
 
 /* 调整文本框（textarea）的高度 */
@@ -106,12 +128,12 @@ textarea {
     resize: vertical; /* 允许垂直调整高度 */;
 }
 label {
-    color: #D8BFD8;
+    color: var(--muted-text);
 }
 /* 编辑按钮 */
 .btn-edit {
-    background-color: #007bff; /* 蓝色背景 */
-    color: #ffffff; /* 白色文字 */
+    background-color: var(--button-bg);
+    color: var(--button-text);
     padding: 0.5rem 1rem; /* 内边距 */
     border: none; /* 无边框 */
     border-radius: 4px; /* 圆角 */
@@ -121,7 +143,7 @@ label {
 }
 
 .btn-edit:hover {
-    background-color: #0056b3; /* 悬停时背景颜色 */
+    background-color: var(--button-hover-bg);
     transform: scale(1.05); /* 悬停时放大效果 */
 }
 
@@ -131,8 +153,8 @@ label {
 
 /* 删除按钮 */
 .btn-delete {
-    background-color: #dc3545; /* 红色背景 */
-    color: #ffffff; /* 白色文字 */
+    background-color: var(--danger-color);
+    color: #ffffff;
     padding: 0.5rem 1rem; /* 内边距 */
     border: none; /* 无边框 */
     border-radius: 4px; /* 圆角 */
@@ -142,7 +164,7 @@ label {
 }
 
 .btn-delete:hover {
-    background-color: #c82333; /* 悬停时背景颜色 */
+    filter: brightness(0.9);
     transform: scale(1.05); /* 悬停时放大效果 */
 }
 
@@ -151,8 +173,8 @@ label {
 }
 /* 保存按钮 */
 .btn-save {
-    background-color: #28a745; /* 绿色背景 */
-    color: #ffffff; /* 白色文字 */
+    background-color: var(--success-color);
+    color: #ffffff;
     padding: 0.6rem 1.2rem; /* 内边距 */
     border: none; /* 无边框 */
     border-radius: 4px; /* 圆角 */
@@ -162,7 +184,7 @@ label {
 }
 
 .btn-save:hover {
-    background-color: #218838; /* 悬停时背景颜色 */
+    filter: brightness(0.9);
     transform: scale(1.05); /* 悬停时放大效果 */
 }
 
@@ -172,8 +194,8 @@ label {
 
 /* 取消按钮 */
 .btn-cancel {
-    background-color: #6c757d; /* 灰色背景 */
-    color: #ffffff; /* 白色文字 */
+    background-color: var(--muted-text);
+    color: var(--page-bg);
     padding: 0.6rem 1.2rem; /* 内边距 */
     border: none; /* 无边框 */
     border-radius: 4px; /* 圆角 */
@@ -183,7 +205,7 @@ label {
 }
 
 .btn-cancel:hover {
-    background-color: #5a6268; /* 悬停时背景颜色 */
+    filter: brightness(0.9);
     transform: scale(1.05); /* 悬停时放大效果 */
 }
 
@@ -193,8 +215,8 @@ label {
 
 /* 添加按钮特定样式 */
 .btn-add {
-    background-color: #007bff; /* 蓝色背景 */
-    color: white; /* 白色文字 */
+    background-color: var(--button-bg);
+    color: var(--button-text);
     border: none; /* 去掉边框 */
     padding: 0.6rem 1.2rem; /* 内边距 */
     border: none; /* 无边框 */
@@ -206,8 +228,8 @@ label {
 }
 
 .btn-add:hover {
-    background-color: #0056b3; /* 更深的蓝色背景 */
-    color: #e6e6e6; /* 更浅的文字颜色 */
+    background-color: var(--button-hover-bg);
+    color: var(--button-text);
 }
 
 .btn-add:focus {
@@ -215,5 +237,5 @@ label {
 }
 
 p {
-    color: #0056b3;
+    color: var(--muted-text);
 }

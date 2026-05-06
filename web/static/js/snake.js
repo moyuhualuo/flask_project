@@ -1,8 +1,11 @@
-const SNAKE_SPEED = 5;
-const snakeBody = [
+const SNAKE_SPEED = 7;
+const START_SNAKE = [
   { x: 11, y: 11 },
   { x: 11, y: 10 },
   { x: 11, y: 9 },
+];
+const snakeBody = [
+  ...START_SNAKE.map((segment) => ({ ...segment })),
 ];
 
 const updateSnake = () => {
@@ -24,6 +27,13 @@ const drawSnake = (gameBoard) => {
     snakeElement.style.gridRowStart = segment.y;
     snakeElement.style.gridColumnStart = segment.x;
     snakeElement.classList.add("snake");
+    if (i === 0) {
+      snakeElement.classList.add("snake-head");
+    }
     gameBoard.appendChild(snakeElement);
   }
+};
+
+const resetSnake = () => {
+  snakeBody.splice(0, snakeBody.length, ...START_SNAKE.map((segment) => ({ ...segment })));
 };
